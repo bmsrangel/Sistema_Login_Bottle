@@ -1,6 +1,7 @@
 # https://bootsnipp.com/
 # Pode-se utilizar o venv para gerar a lista de requisitos de bibliotecas.
 # Basta ir na pasta do projeto e usar o comando pip freeze > requirements.txt
+import bottle_session
 from bottle import Bottle
 from bottle import TEMPLATE_PATH
 from bottle.ext import sqlalchemy
@@ -23,7 +24,10 @@ plugin = sqlalchemy.Plugin(
     use_kwargs=False
 )
 
+plugin_session = bottle_session.SessionPlugin(cookie_lifetime=120)
+
 app.install(plugin)
+app.install(plugin_session)
 
 
 from app.controllers import default
