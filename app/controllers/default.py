@@ -1,4 +1,5 @@
 from app import app
+from app.models.tables import User
 from bottle import template, static_file, request
 
 
@@ -34,10 +35,11 @@ def cadastro():
 
 
 @app.route('/cadastro', method='POST')
-def acao_cadastro():
+def acao_cadastro(db):
     username = request.forms.get('username')
     password = request.forms.get('password')
-    insert_user(username, password)
+    new_user = User(username, password)
+    db.add(new_user)
     return template('verificacao_cadastro', nome=username)
 
 
